@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/guguyanhua/github/pili-startkit/js/node_modules/react-native-pili/android/build/intermediates/res/merged/release/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/guguyanhua/github/pili-startkit/js/node_modules/react-native-pili/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/guguyanhua/github/pili-startkit/js/node_modules/react-native-pili/android/build/intermediates/res/merged/release/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/guguyanhua/github/pili-startkit/js/node_modules/react-native-pili/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "/Users/guguyanhua/github/airapps/js/node_modules/react-native-pili/android/build/intermediates/res/merged/release/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/guguyanhua/github/airapps/js/node_modules/react-native-pili/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/guguyanhua/github/airapps/js/node_modules/react-native-pili/android/build/intermediates/res/merged/release/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/guguyanhua/github/airapps/js/node_modules/react-native-pili/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    }
+]
