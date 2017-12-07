@@ -26,7 +26,7 @@
 
 @property (nonatomic, copy) RCTBubblingEventBlock onPlaying;
 @property (nonatomic, copy) RCTBubblingEventBlock onPaused;
-@property (nonatomic, copy) RCTBubblingEventBlock onShutdown;
+@property (nonatomic, copy) RCTBubblingEventBlock onStop;
 //@property (nonatomic, copy) RCTBubblingEventBlock onError;
 @property (nonatomic, copy) RCTBubblingEventBlock onAutoReconnecting;
 

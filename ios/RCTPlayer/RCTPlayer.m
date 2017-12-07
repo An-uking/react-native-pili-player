@@ -164,7 +164,7 @@ static NSString *status[] = {
             //[_eventDispatcher sendInputEventWithName:@"onPaused" body:@{@"target": self.reactTag}];
             break;
         case PLPlayerStatusStopped:
-            self.onShutdown(@{@"target": self.reactTag});
+            self.onStop(@{@"target": self.reactTag});
             //[_eventDispatcher sendInputEventWithName:@"onShutdown" body:@{@"target": self.reactTag}];
             break;
         case PLPlayerStatusError:

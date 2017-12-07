@@ -52,7 +52,7 @@ RCT_EXPORT_VIEW_PROPERTY(seek, float);
 RCT_EXPORT_VIEW_PROPERTY(onLoading, RCTBubblingEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onReady, RCTBubblingEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onPaused, RCTBubblingEventBlock);
-RCT_EXPORT_VIEW_PROPERTY(onShutdown, RCTBubblingEventBlock);
+RCT_EXPORT_VIEW_PROPERTY(onStop, RCTBubblingEventBlock);
 //RCT_EXPORT_VIEW_PROPERTY(onError, RCTBubblingEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onPlaying, RCTBubblingEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onAutoReconnecting, RCTBubblingEventBlock);

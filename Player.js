@@ -18,7 +18,7 @@ class Player extends Component {
     this._onReady=this._onReady.bind(this);
     this._onLoading = this._onLoading.bind(this);
     this._onPaused = this._onPaused.bind(this);
-    this._onShutdown = this._onShutdown.bind(this);
+    this._onStop = this._onStop.bind(this);
     this._onError = this._onError.bind(this);
     this._onPlaying = this._onPlaying.bind(this);
     this._onAutoReconnecting=this._onAutoReconnecting.bind(this);
@@ -47,8 +47,8 @@ class Player extends Component {
     this.props.onPaused && this.props.onPaused(event.nativeEvent);
   }
 
-  _onShutdown(event) {
-    this.props.onShutdown && this.props.onShutdown(event.nativeEvent);
+  _onStop(event) {
+    this.props._onStop && this.props._onStop(event.nativeEvent);
   }
 
 
@@ -68,7 +68,7 @@ class Player extends Component {
     Object.assign(nativeProps, {
       onLoading: this._onLoading,
       onPaused: this._onPaused,
-      onShutdown: this._onShutdown,
+      onStop: this._onStop,
       onError: this._onError,
       onPlaying: this._onPlaying,
       onReady:this._onReady,
@@ -102,7 +102,7 @@ Player.propTypes = {
   aspectRatio: PropTypes.oneOf([0, 1, 2, 3, 4]),
   onLoading: PropTypes.func,
   onPaused: PropTypes.func,
-  onShutdown: PropTypes.func,
+  onStop: PropTypes.func,
   onError: PropTypes.func,
   onPlaying: PropTypes.func,
   onReady:PropTypes.func,
