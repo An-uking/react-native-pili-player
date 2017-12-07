@@ -9,7 +9,7 @@
 
 #IOS:
 
-在你的项目下面新建一个Profile文件:
+在你的项目ios目录下面新建一个Profile文件:
 
     platform :ios, '8.0'
 
@@ -21,26 +21,10 @@
     
         pod 'RCTPlayer', path: '../node_modules/react-native-uking-pili/ios/'
     
-    end
+    end
+然后在ios目录下 执行 pod install
+然后把ios/Pod录下 Pods.xcodeproj添加到 Libraries下
 
-```bash
-git clone https://github.com/buhe/pili-startkit YourPorjectName
-
-cd YourPorjectName/js && npm install
-
-cd ../ios && pod install
-```
-
-###Javascript
-
-```bash
-cd YourPorjectName/js
-npm start
-```
-
-###iOS
-1. Open ios/YourPorjectName.xcworkspace (这里请注意是打开 .xcworkspace!请确认)
-2. Just run your project (Cmd+R)
 3. 如果是 iOS 10 需要在 info 中额外添加如下权限:
 ```
     <key>NSCameraUsageDescription</key>    
@@ -99,25 +83,30 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
 ```
 ###2. 直播播放
 ```javascript
-<Player
-  source={{
-    uri:"rtmp://pili-live-rtmp.pilitest.qiniucdn.com/pilitest/xxx",
-    timeout: 10 * 1000, //live streaming timeout (ms) Android only
-    live:true, //live streaming ? Android only
-    hardCodec:false, //hard codec [recommended false]  Android only
-    }}
-    started={true} //iOS only
-    muted={false} //iOS only
-    style={{
-      height:200,
-      width:200,
-    }}
-    onLoading={()=>{}} //loading from remote or local
-    onPaused={()=>{}} //pause event
-    onShutdown={()=>{}} //stopped event
-    onError={()=>{}} //error event
-    onPlaying={()=>{}} //play event
-    />
+
+       <Player
+          ref={(ref) => {
+              this.player = ref
+            }} 
+          source={{
+            //uri: "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+            uri:'http://img.ksbbs.com/asset/Mon_1703/eb048d7839442d0.mp4',
+            timeout: 10 * 1000,
+            hardCodec: false
+          }}
+          paused={false}
+          loop={false}
+          aspectRatio={2}
+          onLoading={})}
+          onPaused={})}
+          onShutdown={})}
+          onError={})}
+          onReady={}}
+          onPlaying={})}
+          onProg={({currentTime,totalTime})=>{console.log(currentTime)}}
+       />
+   
+   this.player.seek(0.1)
 ```
 ##Release Note
 ##2.1.1
