@@ -47,10 +47,11 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
 - [ ] 美颜和水印支持
 
 ##Usage
-###1. 推流
+###1. 直播(待修改)
 ```javascript
-<Streaming
-    rtmpURL={"rtmp://pili-publish.pilitest.qiniucdn.com/pilitest/demo_test?key=6eeee8a82246636e"}
+<LivePlayer
+    //uri: "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+    uri={"rtmp://pili-publish.pilitest.qiniucdn.com/pilitest/demo_test?key=6eeee8a82246636e"}
     style={{
         height:400,
         width:400,
@@ -77,15 +78,14 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
     onDisconnected={()=>{}} //onDisconnected event
     />
 ```
-###2. 直播播放
+###2. 点播
 ```javascript
 
        <Player
           ref={(ref) => {
               this.player = ref
             }} 
-          source={{
-            //uri: "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+          source={{            
             uri:'http://img.ksbbs.com/asset/Mon_1703/eb048d7839442d0.mp4',
             timeout: 10 * 1000,
             hardCodec: false
