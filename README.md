@@ -1,32 +1,26 @@
-#Pili Streaming Cloud React Native SDK
+#Pili player React Native SDK
 
 ##Introduction
 
-这*可能*是**第一个**在 React Native 上实现全功能的直播 SDK 了，底层基于 [Pili-SDK](https://github.com/pili-engineering)，把 iOS 和 Android 的 API 尽量统一。
-
-2.0 版本为了更容易集成第三方 SDK ，对原有的 React Native 项目进行了改造，iOS 的依赖采用了 Cocoapod 进行管理，当然你也可以采用原来的方式，毕竟是可以共存的。为此准备了一个 [Starter Kit](https://github.com/buhe/pili-startkit) 可以查看如何进行集成。
+这是七牛官方PLPlayerKit pili-react-native版本，集成到 iOS 和 Android 。
 
 
 ##Installation
 
-```bash
-git clone https://github.com/buhe/pili-startkit YourPorjectName
+#IOS:
 
-cd YourPorjectName/js && npm install
-
-cd ../ios && pod install
+在你的项目ios目录下面新建一个Profile文件:
 ```
-
-###Javascript
-
-```bash
-cd YourPorjectName/js
-npm start
+    platform :ios, '8.0'
+    target '你的项目名称' do
+        pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/'    
+        pod 'React', path: '../node_modules/react-native/'    
+        pod 'RCTPlayer', path: '../node_modules/react-native-uking-pili/ios/'    
+    end
 ```
+然后在ios目录下 执行 pod install
+然后把ios/Pods录下 Pods.xcodeproj添加到 Libraries下
 
-###iOS
-1. Open ios/YourPorjectName.xcworkspace (这里请注意是打开 .xcworkspace!请确认)
-2. Just run your project (Cmd+R)
 3. 如果是 iOS 10 需要在 info 中额外添加如下权限:
 ```
     <key>NSCameraUsageDescription</key>    
@@ -53,10 +47,11 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
 - [ ] 美颜和水印支持
 
 ##Usage
-###1. 推流
+###1. 直播(待修改)
 ```javascript
-<Streaming
-    rtmpURL={"rtmp://pili-publish.pilitest.qiniucdn.com/pilitest/demo_test?key=6eeee8a82246636e"}
+<LivePlayer
+    //uri: "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+    uri={"rtmp://pili-publish.pilitest.qiniucdn.com/pilitest/demo_test?key=6eeee8a82246636e"}
     style={{
         height:400,
         width:400,
@@ -83,31 +78,33 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
     onDisconnected={()=>{}} //onDisconnected event
     />
 ```
-###2. 直播播放
+###2. 点播
 ```javascript
-<Player
-  source={{
-    uri:"rtmp://pili-live-rtmp.pilitest.qiniucdn.com/pilitest/xxx",
-    timeout: 10 * 1000, //live streaming timeout (ms) Android only
-    live:true, //live streaming ? Android only
-    hardCodec:false, //hard codec [recommended false]  Android only
-    }}
-    started={true} //iOS only
-    muted={false} //iOS only
-    style={{
-      height:200,
-      width:200,
-    }}
-    onLoading={()=>{}} //loading from remote or local
-    onPaused={()=>{}} //pause event
-    onShutdown={()=>{}} //stopped event
-    onError={()=>{}} //error event
-    onPlaying={()=>{}} //play event
-    />
+
+       <Player
+          ref={(ref) => {
+              this.player = ref
+            }} 
+          source={{            
+            uri:'http://img.ksbbs.com/asset/Mon_1703/eb048d7839442d0.mp4',
+            timeout: 10 * 1000,
+            hardCodec: false
+          }}
+          paused={false}
+          loop={false}
+          aspectRatio={2}
+          onLoading={})}
+          onPaused={})}
+          onShutdown={})}
+          onError={})}
+          onReady={}}
+          onPlaying={})}
+          onProg={({currentTime,totalTime})=>{console.log(currentTime)}}
+       />
+   
+   this.player.seek(0.1)
 ```
 ##Release Note
-##2.1.1
+##3.0.10
 - [x] Android Player
-- [x] Android Streaming
 - [x] iOS Player
-- [x] iOS Streaming 
