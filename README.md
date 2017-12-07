@@ -1,26 +1,27 @@
-#Pili Streaming Cloud React Native SDK
+#Pili player React Native SDK
 
 ##Introduction
 
-这*可能*是**第一个**在 React Native 上实现全功能的直播 SDK 了，底层基于 [Pili-SDK](https://github.com/pili-engineering)，把 iOS 和 Android 的 API 尽量统一。
-
-2.0 版本为了更容易集成第三方 SDK ，对原有的 React Native 项目进行了改造，iOS 的依赖采用了 Cocoapod 进行管理，当然你也可以采用原来的方式，毕竟是可以共存的。为此准备了一个 [Starter Kit](https://github.com/buhe/pili-startkit) 可以查看如何进行集成。
+这是七牛官方PLPlayerKit pili-react-native版本，集成到 iOS 和 Android 。
 
 
 ##Installation
-IOS:
+
+#IOS:
+
 在你的项目下面新建一个Profile文件:
-platform :ios, '8.0'
 
-target '你的项目名称' do
+    platform :ios, '8.0'
 
-    pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/'
+    target '你的项目名称' do
+
+        pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/'
     
-    pod 'React', path: '../node_modules/react-native/'
+        pod 'React', path: '../node_modules/react-native/'
     
-    pod 'RCTPlayer', path: '../node_modules/react-native-uking-pili/ios/'
+        pod 'RCTPlayer', path: '../node_modules/react-native-uking-pili/ios/'
     
-end
+    end
 
 ```bash
 git clone https://github.com/buhe/pili-startkit YourPorjectName
