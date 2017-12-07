@@ -95,7 +95,7 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
           aspectRatio={2}
           onLoading={})}
           onPaused={})}
-          onShutdown={})}
+          onStop={})}
           onError={})}
           onReady={}}
           onPlaying={})}
