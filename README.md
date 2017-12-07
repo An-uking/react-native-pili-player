@@ -19,7 +19,7 @@
     end
 ```
 然后在ios目录下 执行 pod install
-然后把ios/Pod录下 Pods.xcodeproj添加到 Libraries下
+然后把ios/Pods录下 Pods.xcodeproj添加到 Libraries下
 
 3. 如果是 iOS 10 需要在 info 中额外添加如下权限:
 ```
@@ -105,8 +105,6 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
    this.player.seek(0.1)
 ```
 ##Release Note
-##2.1.1
+##3.0.10
 - [x] Android Player
-- [x] Android Streaming
 - [x] iOS Player
-- [x] iOS Streaming 
