@@ -8,7 +8,15 @@
 
 
 ##Installation
+IOS:
+在你的项目下面新建一个Profile文件:
+platform :ios, '8.0'
 
+target '你的项目名称' do
+    pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/'
+    pod 'React', path: '../node_modules/react-native/'
+    pod 'RCTPlayer', path: '../node_modules/react-native-uking-pili/ios/'
+end
 ```bash
 git clone https://github.com/buhe/pili-startkit YourPorjectName
 
