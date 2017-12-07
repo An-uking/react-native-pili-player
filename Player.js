@@ -6,14 +6,15 @@ import React, {
 } from 'react';
 import {
     requireNativeComponent,
+    
     View,
 } from 'react-native';
-const PropTypes = require('prop-types');
+import PropTypes from 'prop-types';
 class Player extends Component {
 
   constructor(props, context) {
     super(props, context);
-    console.log(props)
+    //console.log(props)
     this._onReady=this._onReady.bind(this);
     this._onLoading = this._onLoading.bind(this);
     this._onPaused = this._onPaused.bind(this);
@@ -23,40 +24,44 @@ class Player extends Component {
     this._onAutoReconnecting=this._onAutoReconnecting.bind(this);
     this._onProg=this._onProg.bind(this);
   }
-
+  setNativeProps(nativeProps) {
+    this._root.setNativeProps(nativeProps);
+  }
+  seek=(time)=>{
+    this.setNativeProps({ seek: time })
+  }
   _onReady(event){
-    //this.props.onReady&&this.props.onReady(event.nativeEvent)
+    this.props.onReady&&this.props.onReady(event.nativeEvent)
   }
   _onAutoReconnecting(event){
-    //this.props.onAutoReconnecting&&this.props.onAutoReconnecting(event.nativeEvent)
+    this.props.onAutoReconnecting&&this.props.onAutoReconnecting(event.nativeEvent)
   }
   _onCompleted(event){
-    //this.props.onCompleted&&this.props.onCompleted(event.nativeEvent)
+    this.props.onCompleted&&this.props.onCompleted(event.nativeEvent)
   }
   _onLoading(event) {
-    //this.props.onLoading && this.props.onLoading(event.nativeEvent);
+    this.props.onLoading && this.props.onLoading(event.nativeEvent);
   }
 
   _onPaused(event) {
-    //this.props.onPaused && this.props.onPaused(event.nativeEvent);
+    this.props.onPaused && this.props.onPaused(event.nativeEvent);
   }
 
   _onShutdown(event) {
-    //this.props.onShutdown && this.props.onShutdown(event.nativeEvent);
+    this.props.onShutdown && this.props.onShutdown(event.nativeEvent);
   }
 
 
   _onError(event) {
-    //this.props.onError && this.props.onError(event.nativeEvent);
+    this.props.onError && this.props.onError(event.nativeEvent);
   }
 
   _onPlaying(event) {
-    console.log(event.nativeEvent)
-    //this.props.onPlaying && this.props.onPlaying(event.nativeEvent);
+    this.props.onPlaying && this.props.onPlaying(event.nativeEvent);
   }
 
-  _onProg(time){
-    this.props.onProg&&this.props.onProg(time)
+  _onProg(event){
+    this.props.onProg&&this.props.onProg(event.nativeEvent)
   }
   render() {
     const nativeProps = Object.assign({}, this.props);
@@ -74,6 +79,7 @@ class Player extends Component {
     });
     return (
         <RCTPlayer
+            ref={component => this._root = component}
             {...nativeProps}
             />
     )
@@ -88,8 +94,11 @@ Player.propTypes = {
     hardCodec: PropTypes.bool, //Android only
     live: PropTypes.bool, //Android only
   }).isRequired,
-  started:PropTypes.bool,
+  seek:PropTypes.number,
+  paused:PropTypes.bool,
   muted:PropTypes.bool, //iOS only
+  loop:PropTypes.bool,
+  //autoPlay:PropTypes.bool,
   aspectRatio: PropTypes.oneOf([0, 1, 2, 3, 4]),
   onLoading: PropTypes.func,
   onPaused: PropTypes.func,

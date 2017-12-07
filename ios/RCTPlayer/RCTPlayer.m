@@ -15,13 +15,16 @@
 @implementation RCTPlayer{
     RCTEventDispatcher *_eventDispatcher;
     PLPlayer *_plplayer;
-    bool _started;
-    bool _muted;
-    bool _islive;
+    BOOL _started;
+    BOOL _muted;
+    BOOL _islive;
+    BOOL _autoPlay;
+    BOOL _loop;
+    BOOL _first;
+    BOOL _isSeeking;
     NSTimer *_timer;
-    CMTime _currentTime;
+    //CMTime _currentTime;
 }
-
 static NSString *status[] = {
     @"PLPlayerStatusUnknow",
     @"PLPlayerStatusPreparing",
@@ -41,6 +44,10 @@ static NSString *status[] = {
         _eventDispatcher = eventDispatcher;
         _started = YES;
         _muted = NO;
+        _loop = NO;
+        _timer = nil;
+        _first = YES;
+        _isSeeking=NO;
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
         self.reconnectCount = 0;
     }
@@ -51,7 +58,6 @@ static NSString *status[] = {
 {
     NSString *uri = source[@"uri"];
     bool backgroundPlay = source[@"backgroundPlay"] == nil ? false : source[@"backgroundPlay"];
-    
     PLPlayerOption *option = [PLPlayerOption defaultOption];
     
     // 更改需要修改的 option 属性键所对应的值
@@ -67,13 +73,13 @@ static NSString *status[] = {
     _plplayer.delegateQueue = dispatch_get_main_queue();
     _plplayer.backgroundPlayEnable = backgroundPlay;
     
+    
     if(backgroundPlay){
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startPlayer) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
-    [_plplayer addObserver:self forKeyPath:@"currentTime" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
+    //[_plplayer addObserver:self forKeyPath:@"currentTime" options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) context:nil];
 
     [self setupUI];
-    
     [self startPlayer];
     
 }
@@ -107,62 +113,36 @@ static NSString *status[] = {
     [_plplayer setMute:muted];
     
 }
-
 - (void)startPlayer {
     [UIApplication sharedApplication].idleTimerDisabled = YES;
+    //NSLog(@"布尔值3:%i",_autoPlay);
     [_plplayer play];
     _started = true;
-    _islive = false;
-    _timer = nil;
-    NSLog(@"变了");
-    NSLog(@"布尔值:%i",_started);
+    //NSLog(@"布尔值:%i",_started);
     [self startProcess];
 }
 /** --------------- 播放进度的timer ----------------- */
 - (void)startProcess {
-    if (_islive) return;
     if (!_timer) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(timerFunction:) userInfo:nil repeats:YES];
+        //NSLog(@"布尔值:%i",_started);
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(timerFunction:) userInfo:nil repeats:YES];
     }
 }
 
 - (void) endProcess {
-    if (_islive) return;
-    
-    if (_islive) {
-        [_timer invalidate];
-        self.timer  = nil;
-    }
+    [_timer invalidate];
+    _timer  = nil;
 }
 - (void)timerFunction:(NSTimer *) timer {
-    
-    //if (_started) {
-        NSLog(@"布尔值2:%i",_started);
-        double currentTime = CMTimeGetSeconds(_plplayer.currentTime);
-        //double totalTime = CMTimeGetSeconds(_plplayer.totalDuration);
-        NSLog(@"TIME:%.2f",currentTime);
-        //NSLog(@{@"TIME:%@",currentTime});
-       // [_playerControl playTo:currentTime totalTime:totalTime];
-    //}
+        //NSLog(@"布尔值2:%i",_started);
+    if(_plplayer.playing && self.onProg){
+        self.onProg(@{@"currentTime":[NSNumber numberWithDouble:CMTimeGetSeconds(_plplayer.currentTime)],@"totalTime":[NSNumber numberWithDouble:CMTimeGetSeconds(_plplayer.totalDuration)]});
+    }
+        //NSLog(@"TIME:%f",currentTime);
 }
 
 /** --------------- 播放进度的timer ----------------- */
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if([keyPath isEqualToString:@"currentTime"])
-    {
-        NSLog(@"变了");
-        self.onProg(@{@"currentTime" : [NSNumber numberWithDouble:CMTimeGetSeconds(_plplayer.currentTime)]});
-    }
-}
 
-- (void)removeFromSuperview
-{
-    [_plplayer stop];
-    [_plplayer removeObserver:self forKeyPath:@"currentTime" context:nil];
-    
-    //[_plplayer.playerView removeFromSuperview];
-    _plplayer = nil;
-}
 #pragma mark - <PLPlayerDelegate>
 
 - (void)player:(nonnull PLPlayer *)player statusDidChange:(PLPlayerStatus)state {
@@ -196,7 +176,18 @@ static NSString *status[] = {
             //[_eventDispatcher sendInputEventWithName:@"onAutoReconnecting" body:@{@"target": self.reactTag}];
             break;
         case PLPlayerStatusCompleted:
-            //self.onCompleted(@{@"target": self.reactTag});
+            if(_loop){
+                [_plplayer stop];
+                [_plplayer play];
+                _started=true;
+            }else{
+                [self endProcess];
+//                if(self.onCompleted){
+//                    self.onCompleted(@{@"target": self.reactTag});
+//                }
+            }
+            
+            
             //[_plplayer pause];
             //_started = false;
             //_plplayer = nil;
@@ -208,16 +199,53 @@ static NSString *status[] = {
     NSLog(@"%@", status[state]);
 }
 
-- (void) setStarted:(BOOL) started{
-    if(started != _started){
-        if(started){
-            [_plplayer resume];
-            _started = started;
-        }else{
-            [_plplayer pause];
-            _started = started;
-        }
+- (void)setSeek:(float) seek{
+    double ctime = CMTimeGetSeconds(_plplayer.totalDuration) * seek;
+    CMTimeScale scale =_plplayer.currentTime.timescale;
+    CMTime cmtime =CMTimeMake(ctime * scale, scale);
+    [_plplayer seekTo:cmtime];
+    //_isSeeking=NO;
+}
+
+-(void) setLoop:(BOOL)loop{
+    //NSLog(@"loop:%i",loop);
+    _loop = loop;
+}
+- (void) setPaused:(BOOL) paused{
+    NSLog(@"ssssssss:%i",paused);
+    if(_first){
+        paused=false;
+        _first=false;
+        return;
     }
+    if(!paused){
+        [_plplayer resume];
+        _started = paused;
+        [self startProcess];
+    }else{
+        [_plplayer pause];
+        _started = paused;
+        [self endProcess];
+    }
+    
+//    if(!_first && _autoPlay){
+//        [_plplayer pause];
+//        _started =  false;
+//        started =_started;
+//        _first =true;
+//        [self endProcess];
+//    }else{
+//        if(started){
+//            [_plplayer resume];
+//            _started = started;
+//            [self startProcess];
+//
+//        }else{
+//            [_plplayer pause];
+//            _started = started;
+//            [self endProcess];
+//        }
+//    }
 }
 
 - (void)player:(nonnull PLPlayer *)player stoppedWithError:(nullable NSError *)error {

@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "RCTView.h"
-#import "PLPlayerKit.h"
+#import "PLPlayer.h"
 
 @class RCTEventDispatcher;
 
 @interface RCTPlayer : UIView<PLPlayerDelegate>
 
 @property (nonatomic, assign) int reconnectCount;
-@property(nonatomic,strong) NSTimer *timer;
+//@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,assign) bool loop;
+//@property(nonatomic,assign) bool autoPlay;
+
+
 
 @property (nonatomic, copy) RCTBubblingEventBlock onLoading;
 @property (nonatomic, copy) RCTBubblingEventBlock onReady;

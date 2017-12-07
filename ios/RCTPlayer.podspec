@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
                   React Native Pili SDK Bridge
                    DESC
 
-  s.homepage     = "http://www.airapps.cn/package/react-native-uking-pili"
+  s.homepage     = "http://www.airapps.cn/package/react-native-pili-player/readme"
   s.license      = "MIT"
   # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
   s.author             = { "uking" => "ptvile@qq.com" }

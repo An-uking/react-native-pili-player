@@ -8,6 +8,7 @@
 
 #import "RCTPlayerManager.h"
 #import "RCTPlayer.h"
+#import "RCTBridge.h"
 
 @implementation RCTPlayerManager
 RCT_EXPORT_MODULE();
@@ -41,8 +42,11 @@ RCT_EXPORT_MODULE();
 
 
 RCT_EXPORT_VIEW_PROPERTY(source, NSDictionary);
-RCT_EXPORT_VIEW_PROPERTY(started, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(paused, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(muted, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(loop, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(seek, float);
+//RCT_EXPORT_VIEW_PROPERTY(autoPlay, BOOL);
 
 
 RCT_EXPORT_VIEW_PROPERTY(onLoading, RCTBubblingEventBlock);
