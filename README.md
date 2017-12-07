@@ -14,14 +14,11 @@
     platform :ios, '8.0'
 
     target '你的项目名称' do
-
-        pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/'
-    
-        pod 'React', path: '../node_modules/react-native/'
-    
-        pod 'RCTPlayer', path: '../node_modules/react-native-uking-pili/ios/'
-    
+        pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/'    
+        pod 'React', path: '../node_modules/react-native/'    
+        pod 'RCTPlayer', path: '../node_modules/react-native-uking-pili/ios/'    
     end
+
 然后在ios目录下 执行 pod install
 然后把ios/Pod录下 Pods.xcodeproj添加到 Libraries下
 
