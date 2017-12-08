@@ -1,5 +1,7 @@
 package com.pili.rnpili;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -28,6 +30,8 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
     private static final String TAG = PiliPlayerViewManager.class.getSimpleName();
     private PLVideoView mVideoView;
     private RCTEventEmitter mEventEmitter;
+    private Handler mProgressUpdateHandler = new Handler(Looper.getMainLooper());
+    private Runnable mProgressUpdateRunnable = null;
 
     private static final int MEDIA_INFO_UNKNOWN = 1;
     private static final int MEDIA_INFO_VIDEO_RENDERING_START = 3;
@@ -43,6 +47,7 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
         SHUTDOWN("onStop"),
         READY("onReady"),
         ERROR("onError"),
+        PROGRESS("onProg"),
         PLAYING("onPlaying");
 
         private final String mName;
@@ -87,6 +92,17 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
         mVideoView.setOnErrorListener(mOnErrorListener);
 
         reactContext.addLifecycleEventListener(this);
+        mProgressUpdateRunnable=new Runnable() {
+            @Override
+            public void run() {
+                if(mVideoView.isPlaying()){
+                    WritableMap event = Arguments.createMap();
+                    event.putDouble("currentTime", mVideoView.getCurrentPosition()/1000);
+                    mEventEmitter.receiveEvent(getTargetId(), PiliPlayerViewManager.Events.PROGRESS.toString(), event);
+                    mProgressUpdateHandler.postDelayed(mProgressUpdateRunnable,1000);
+                }
+            }
+        };
         return mVideoView;
     }
 
@@ -158,6 +174,7 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
             mEventEmitter.receiveEvent(getTargetId(), Events.PAUSE.toString(), Arguments.createMap());
         } else {
             mVideoView.start();
+            mProgressUpdateHandler.post(mProgressUpdateRunnable);
             mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
         }
     }
@@ -182,6 +199,7 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
 
             switch (what) {
                 case PLMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
+                    mProgressUpdateHandler.post(mProgressUpdateRunnable);
                     mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
                     break;
                 case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
@@ -242,17 +260,25 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
 
     @Override
     public void onHostResume() {
-        mVideoView.start();
+        if(mVideoView!=null){
+            mVideoView.start();
+        }
+
     }
 
     @Override
     public void onHostPause() {
-        mVideoView.pause();
+        if(mVideoView!=null){
+            mVideoView.pause();
+        }
     }
 
     @Override
     public void onHostDestroy() {
-        mVideoView.stopPlayback();
+        if(mVideoView!=null){
+            mVideoView.stopPlayback();
+            mProgressUpdateHandler.removeCallbacks(mProgressUpdateRunnable);
+        }
     }
 
     public int getTargetId() {

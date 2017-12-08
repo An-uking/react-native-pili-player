@@ -17,7 +17,8 @@ import com.pili.pldroid.player.widget.PLVideoView;
 //import com.pili.rnpili.support.MediaController;
 
 import java.util.Map;
-
+import android.os.Handler;
+import android.os.Looper;
 import javax.annotation.Nullable;
 
 /**
@@ -28,6 +29,8 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
     private static final String TAG = PiliPlayerViewManager.class.getSimpleName();
     private PLVideoView mVideoView;
     private RCTEventEmitter mEventEmitter;
+    private Handler mProgressUpdateHandler = new Handler(Looper.getMainLooper());
+    private Runnable mProgressUpdateRunnable = null;
 
     private static final int MEDIA_INFO_UNKNOWN = 1;
     private static final int MEDIA_INFO_VIDEO_RENDERING_START = 3;
@@ -43,6 +46,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
         SHUTDOWN("onStop"),
         READY("onReady"),
         ERROR("onError"),
+        PROGRESS("onProg"),
         PLAYING("onPlaying");
 
         private final String mName;
@@ -71,12 +75,13 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
         }
         return builder.build();
     }
-
     @Override
     protected PLVideoView createViewInstance(ThemedReactContext reactContext) {
         this.reactContext = reactContext;
         mEventEmitter = reactContext.getJSModule(RCTEventEmitter.class);
+
         mVideoView = new PLVideoView(reactContext);
+
         // Set some listeners
         mVideoView.setOnPreparedListener(mOnPreparedListener);
         mVideoView.setOnInfoListener(mOnInfoListener);
@@ -85,8 +90,19 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
         mVideoView.setOnCompletionListener(mOnCompletionListener);
         mVideoView.setOnSeekCompleteListener(mOnSeekCompleteListener);
         mVideoView.setOnErrorListener(mOnErrorListener);
-
         reactContext.addLifecycleEventListener(this);
+        mProgressUpdateRunnable=new Runnable() {
+            @Override
+            public void run() {
+                if(mVideoView.isPlaying()){
+                    WritableMap event = Arguments.createMap();
+                    event.putDouble("currentTime", mVideoView.getCurrentPosition()/1000);
+                    event.putDouble("totalTime", mVideoView.getDuration()/1000); //TODO:mBufferUpdateRunnable
+                    mEventEmitter.receiveEvent(getTargetId(), Events.PROGRESS.toString(), event);
+                    mProgressUpdateHandler.postDelayed(mProgressUpdateRunnable,1000);
+                }
+            }
+        };
         return mVideoView;
     }
 
@@ -158,6 +174,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
             mEventEmitter.receiveEvent(getTargetId(), Events.PAUSE.toString(), Arguments.createMap());
         } else {
             mVideoView.start();
+            mProgressUpdateHandler.post(mProgressUpdateRunnable);
             mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
         }
     }
@@ -193,6 +210,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
 
             switch (what) {
                 case PLMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
+                    mProgressUpdateHandler.post(mProgressUpdateRunnable);
                     mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
                     break;
                 case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
@@ -253,17 +271,25 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
 
     @Override
     public void onHostResume() {
-        mVideoView.start();
+        if(mVideoView!=null){
+            mVideoView.start();
+        }
+
     }
 
     @Override
     public void onHostPause() {
-        mVideoView.pause();
+        if(mVideoView!=null){
+            mVideoView.pause();
+        }
     }
 
     @Override
     public void onHostDestroy() {
-        mVideoView.stopPlayback();
+        if(mVideoView!=null){
+            mVideoView.stopPlayback();
+            mProgressUpdateHandler.removeCallbacks(mProgressUpdateRunnable);
+        }
     }
 
     public int getTargetId() {
