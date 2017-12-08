@@ -104,18 +104,14 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
         String uri = source.getString("uri");
         boolean mediaController = source.hasKey("controller") && source.getBoolean("controller");
         int avFrameTimeout = source.hasKey("timeout") ? source.getInt("timeout") : -1;        //10 * 1000 ms
-        boolean liveStreaming = source.hasKey("live") && source.getBoolean("live");  //1 or 0 // 1 -> live
+        //boolean liveStreaming = source.hasKey("live") && source.getBoolean("live");  //1 or 0 // 1 -> live
         boolean codec = source.hasKey("hardCodec") && source.getBoolean("hardCodec");  //1 or 0  // 1 -> hw codec enable, 0 -> disable [recommended]
         // the unit of timeout is ms
         if (avFrameTimeout >= 0) {
             options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, avFrameTimeout);
         }
         // Some optimization with buffering mechanism when be set to 1
-        if (liveStreaming) {
-            options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
-        } else {
-            options.setInteger(AVOptions.KEY_LIVE_STREAMING, 0);
-        }
+        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 0);
 //        }
 
         // 1 -> hw codec enable, 0 -> disable [recommended]

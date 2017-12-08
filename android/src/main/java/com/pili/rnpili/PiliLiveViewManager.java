@@ -34,7 +34,7 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
     private static final int MEDIA_INFO_BUFFERING_START = 701;
     private static final int MEDIA_INFO_BUFFERING_END = 702;
     private static final int MEDIA_INFO_AUDIO_RENDERING_START = 10002;
-    private boolean started;
+    private boolean paused;
     private int aspectRatio;
 
     public enum Events {
@@ -104,18 +104,15 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
         String uri = source.getString("uri");
         boolean mediaController = source.hasKey("controller") && source.getBoolean("controller");
         int avFrameTimeout = source.hasKey("timeout") ? source.getInt("timeout") : -1;        //10 * 1000 ms
-        boolean liveStreaming = source.hasKey("live") && source.getBoolean("live");  //1 or 0 // 1 -> live
+        //boolean liveStreaming = source.hasKey("live") && source.getBoolean("live");  //1 or 0 // 1 -> live
         boolean codec = source.hasKey("hardCodec") && source.getBoolean("hardCodec");  //1 or 0  // 1 -> hw codec enable, 0 -> disable [recommended]
         // the unit of timeout is ms
         if (avFrameTimeout >= 0) {
             options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, avFrameTimeout);
         }
         // Some optimization with buffering mechanism when be set to 1
-        if (liveStreaming) {
-            options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
-        } else {
-            options.setInteger(AVOptions.KEY_LIVE_STREAMING, 0);
-        }
+        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
+
 //        }
 
         // 1 -> hw codec enable, 0 -> disable [recommended]
@@ -153,21 +150,20 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
         mVideoView.setDisplayAspectRatio(aspectRatio);
     }
 
-    @ReactProp(name = "started")
-    public void setStarted(PLVideoView mVideoView,  boolean started) {
-        this.started = started;
-        if (started) {
-            mVideoView.start();
-        } else {
+    @ReactProp(name = "paused")
+    public void setStarted(PLVideoView mVideoView,  boolean paused) {
+        this.paused = paused;
+        if (paused) {
             mVideoView.pause();
             mEventEmitter.receiveEvent(getTargetId(), Events.PAUSE.toString(), Arguments.createMap());
+        } else {
+            mVideoView.start();
         }
     }
 
     @ReactProp(name = "muted")
     public void setMuted(PLVideoView mVideoView, boolean muted){
-//        mVideoView.mute
-        //Android not implements
+        mVideoView.setVolume(0,0);
     }
 
     private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
