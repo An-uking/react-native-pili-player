@@ -19,6 +19,8 @@ IOS     API:http://cocoadocs.org/docsets/PLPlayerKit
 
 ##Installation
 
+npm install react-native-pili-player  or yarn add react-native-pili-player
+
 #IOS:
 
 在你的项目ios目录下面新建一个Profile文件:
