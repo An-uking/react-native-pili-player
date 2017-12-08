@@ -51,24 +51,14 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
             timeout: 10 * 1000,
             hardCodec: false
           }}
-          paused={this.state.paused}
-            aspectRatio={2}
-            onLoading={() => this.setState({
-            text: this.state.text + " loading"
-          })}
-            onPaused={() => this.setState({
-            text: this.state.text + " pause"
-          })}
-            onStop={() => this.setState({
-            text: this.state.text + " shutdown"
-          })}
-            onError={() => this.setState({
-            text: this.state.text + " error"
-          })}
-            onReady={()=>{this.onReady.bind(this)}}
-            onPlaying={() => this.setState({
-            text: this.state.text + " playing"
-          })}
+          paused={false}
+          aspectRatio={2}
+          onLoading={})}
+          onPaused={})}
+          onStop={})}
+          onError={})}
+          onReady={}}
+          onPlaying={})}
             onProg={({currentTime})=>{console.log(totalTime)}}
           />
 ```
