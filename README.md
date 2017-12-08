@@ -35,12 +35,49 @@
 ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
 
 
-###Android
-1. Open android use Android Studio
-2. Just run your project
+#### Android
+
+make the following additions to the given files manually:
+
+**android/settings.gradle**
+
+```gradle
+include ':react-native-pili-player'
+project(':react-native-pili-player').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-pili-player/android')
+```
+
+**android/app/build.gradle**
+
+```gradle
+dependencies {
+   ...
+   compile project(':react-native-pili-player')
+}
+```
+
+**MainApplication.java**
+
+On top, where imports are:
+
+```java
+import com.pili.rnpili.PiliPackage;
+```
+
+Add the `ReactVideoPackage` class to your list of exported packages.
+
+```java
+@Override
+protected List<ReactPackage> getPackages() {
+    return Arrays.asList(
+            new MainReactPackage(),
+            new PiliPackage()
+    );
+}
+```
+
 
 ##Usage
-###1. 直播(待修改)
+###1. 直播
 ```javascript
           <Live
             ref={(ref) => {
@@ -88,7 +125,6 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
    
    this.player.seek(0.1)
 ```
-##Release Note
-##3.0.10
-- [x] Android Player
-- [x] iOS Player
+##PLPlayer
+- [x] Android: SDK v2.0.4
+- [x] iOS: SDK v3.1.0
