@@ -42,6 +42,9 @@ class Live extends Component {
     seek = (time) => {
         this.setNativeProps({seek: time})
     }
+    setVolume=(volume)=>{
+        this.setNativeProps({volume:volume})
+    }
     _onReady(event) {
         this.props.onReady && this
             .props
@@ -120,7 +123,8 @@ Live.propTypes = {
         live: PropTypes.bool, //Android only
     }).isRequired,
     paused: PropTypes.bool,
-    muted: PropTypes.bool, //iOS only
+    muted: PropTypes.bool,
+    volume:PropTypes.number,
     //autoPlay:PropTypes.bool,
     aspectRatio: PropTypes.oneOf([0, 1, 2, 3, 4]),
     onLoading: PropTypes.func,

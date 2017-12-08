@@ -40,7 +40,8 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
     public enum Events {
         LOADING("onLoading"),
         PAUSE("onPaused"),
-        SHUTDOWN("onShutdown"),
+        SHUTDOWN("onStop"),
+        READY("onReady"),
         ERROR("onError"),
         PLAYING("onPlaying");
 
@@ -149,7 +150,7 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
         mVideoView.setDisplayAspectRatio(aspectRatio);
     }
 
-    @ReactProp(name = "paused")
+    @ReactProp(name = "paused",defaultBoolean = false)
     public void setStarted(PLVideoView mVideoView,  boolean paused) {
         this.paused = paused;
         if (paused) {
@@ -157,10 +158,11 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
             mEventEmitter.receiveEvent(getTargetId(), Events.PAUSE.toString(), Arguments.createMap());
         } else {
             mVideoView.start();
+            mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
         }
     }
 
-    @ReactProp(name = "muted")
+    @ReactProp(name = "muted",defaultBoolean = false)
     public void setMuted(PLVideoView mVideoView, boolean muted){
         mVideoView.setVolume(0,0);
     }
@@ -179,13 +181,16 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
             Log.d(TAG, "onInfo: " + what + ", " + extra);
 
             switch (what) {
-                case MEDIA_INFO_VIDEO_RENDERING_START:
+                case PLMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
                     mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
                     break;
-                case MEDIA_INFO_BUFFERING_START:
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
                     mEventEmitter.receiveEvent(getTargetId(), Events.LOADING.toString(), Arguments.createMap());
                     break;
-                case MEDIA_INFO_BUFFERING_END:
+                case PLMediaPlayer.MEDIA_INFO_CONNECTED:
+                    mEventEmitter.receiveEvent(getTargetId(), Events.READY.toString(), Arguments.createMap());
+                    break;
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_END:
                     mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
                     break;
             }

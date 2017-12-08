@@ -41,6 +41,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
         LOADING("onLoading"),
         PAUSE("onPaused"),
         SHUTDOWN("onStop"),
+        READY("onReady"),
         ERROR("onError"),
         PLAYING("onPlaying");
 
@@ -149,7 +150,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
         mVideoView.setDisplayAspectRatio(aspectRatio);
     }
 
-    @ReactProp(name = "paused")
+    @ReactProp(name = "paused",defaultBoolean = false)
     public void setStarted(PLVideoView mVideoView,  boolean paused) {
         this.paused = paused;
         if (paused) {
@@ -157,19 +158,24 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
             mEventEmitter.receiveEvent(getTargetId(), Events.PAUSE.toString(), Arguments.createMap());
         } else {
             mVideoView.start();
+            mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
         }
     }
 
-    @ReactProp(name = "muted")
+    @ReactProp(name = "muted",defaultBoolean = false)
     public void setMuted(PLVideoView mVideoView, boolean muted){
         mVideoView.setVolume(0,0);
     }
-    @ReactProp(name="loop")
+    @ReactProp(name = "volume")
+    public void setVolume(PLVideoView mVideoView,final int volume){
+        mVideoView.setVolume(volume,volume);
+    }
+    @ReactProp(name="loop",defaultBoolean = false)
     public void setLoop(PLVideoView mVideoView,boolean loop){
         mVideoView.setLooping(loop);
     }
-    @ReactProp(name="seek")
-    public void  setSeek(PLVideoView mVideoView,long seek){
+    @ReactProp(name="seek",defaultInt = 0)
+    public void  setSeek(PLVideoView mVideoView, final int seek){
         mVideoView.seekTo(seek);
     }
     private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
@@ -186,13 +192,16 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
             Log.d(TAG, "onInfo: " + what + ", " + extra);
 
             switch (what) {
-                case MEDIA_INFO_VIDEO_RENDERING_START:
+                case PLMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
                     mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
                     break;
-                case MEDIA_INFO_BUFFERING_START:
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_START:
                     mEventEmitter.receiveEvent(getTargetId(), Events.LOADING.toString(), Arguments.createMap());
                     break;
-                case MEDIA_INFO_BUFFERING_END:
+                case PLMediaPlayer.MEDIA_INFO_CONNECTED:
+                    mEventEmitter.receiveEvent(getTargetId(), Events.READY.toString(), Arguments.createMap());
+                    break;
+                case PLMediaPlayer.MEDIA_INFO_BUFFERING_END:
                     mEventEmitter.receiveEvent(getTargetId(), Events.PLAYING.toString(), Arguments.createMap());
                     break;
             }
