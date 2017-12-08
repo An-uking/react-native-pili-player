@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 /**
  * Created by buhe on 16/4/29.
  */
-public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implements LifecycleEventListener {
+public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implements LifecycleEventListener {
     private ThemedReactContext reactContext;
     private static final String TAG = PiliPlayerViewManager.class.getSimpleName();
     private PLVideoView mVideoView;
@@ -34,13 +34,13 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
     private static final int MEDIA_INFO_BUFFERING_START = 701;
     private static final int MEDIA_INFO_BUFFERING_END = 702;
     private static final int MEDIA_INFO_AUDIO_RENDERING_START = 10002;
-    private boolean paused;
+    private boolean started;
     private int aspectRatio;
 
     public enum Events {
         LOADING("onLoading"),
         PAUSE("onPaused"),
-        SHUTDOWN("onStop"),
+        SHUTDOWN("onShutdown"),
         ERROR("onError"),
         PLAYING("onPlaying");
 
@@ -58,7 +58,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
 
     @Override
     public String getName() {
-        return "RCTPlayer";
+        return "RCTLive";
     }
 
     @Override
@@ -153,14 +153,14 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
         mVideoView.setDisplayAspectRatio(aspectRatio);
     }
 
-    @ReactProp(name = "paused")
-    public void setStarted(PLVideoView mVideoView,  boolean paused) {
-        this.paused = paused;
-        if (paused) {
+    @ReactProp(name = "started")
+    public void setStarted(PLVideoView mVideoView,  boolean started) {
+        this.started = started;
+        if (started) {
+            mVideoView.start();
+        } else {
             mVideoView.pause();
             mEventEmitter.receiveEvent(getTargetId(), Events.PAUSE.toString(), Arguments.createMap());
-        } else {
-            mVideoView.start();
         }
     }
 
@@ -169,14 +169,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
 //        mVideoView.mute
         //Android not implements
     }
-    @ReactProp(name="loop")
-    public void setLoop(PLVideoView mVideoView,boolean loop){
-        mVideoView.setLooping(loop);
-    }
-    @ReactProp(name="seek")
-    public void  setSeek(PLVideoView mVideoView,long seek){
-        mVideoView.seekTo(seek);
-    }
+
     private PLMediaPlayer.OnPreparedListener mOnPreparedListener = new PLMediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(PLMediaPlayer plMediaPlayer, int preparedTime) {
