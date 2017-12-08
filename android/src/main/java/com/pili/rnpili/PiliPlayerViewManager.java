@@ -162,8 +162,7 @@ public class PiliPlayerViewManager extends SimpleViewManager<PLVideoView> implem
 
     @ReactProp(name = "muted")
     public void setMuted(PLVideoView mVideoView, boolean muted){
-//        mVideoView.mute
-        //Android not implements
+        mVideoView.setVolume(0,0);
     }
     @ReactProp(name="loop")
     public void setLoop(PLVideoView mVideoView,boolean loop){

@@ -112,7 +112,6 @@ public class PiliLiveViewManager extends SimpleViewManager<PLVideoView> implemen
         }
         // Some optimization with buffering mechanism when be set to 1
         options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
-
 //        }
 
         // 1 -> hw codec enable, 0 -> disable [recommended]
