@@ -4,6 +4,15 @@
 
 这是由七牛官方PLPlayer pili-react-native版本修改而来，增加一些功能函数，，集成到 iOS 和 Android 。
 
+支持直播和点播功能，具体详情可以去七牛官方查看
+
+Android GIT: https://github.com/pili-engineering/PLDroidPlayer
+
+Android API: http://pili-docs.cloudvdn.com/android-player/index.html
+
+IOS     GIT: https://github.com/pili-engineering/PLPlayerKit
+
+IOS     API:http://cocoadocs.org/docsets/PLPlayerKit
 
 ##注：
 本人不会原生开发，所以参照其他组件修改和添加一些功能，如果有不对的地方请指正。
@@ -82,7 +91,7 @@ protected List<ReactPackage> getPackages() {
 ##Usage
 ###1. 直播
 ```javascript
-import {Player,Live} from 'react-native-pili-player';
+import {Live} from 'react-native-pili-player';
 
           <Live
             ref={(ref) => {
@@ -106,7 +115,7 @@ import {Player,Live} from 'react-native-pili-player';
 ```
 ###2. 点播
 ```javascript
-import {Player,Live} from 'react-native-pili-player';
+import {Playey} from 'react-native-pili-player';
 
        <Player
           ref={(ref) => {
