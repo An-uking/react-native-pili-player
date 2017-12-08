@@ -1,14 +1,14 @@
 {
-  "name": "react-native-pili",
+  "name": "react-native-pili-player",
   "version": "2.3.0",
-  "description": "Pili Streaming Cloud React Native SDK",
+  "description": "Pili PLPlayer Cloud React Native SDK",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/buhe/react-native-pili.git"
+    "url": "git+https://github.com/An-uking/react-native-pili-player.git"
   },
   "keywords": [
     "React",
@@ -19,14 +19,14 @@
     "Stream",
     "Cloud"
   ],
-  "author": "buhe",
+  "author": "uking",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/buhe/react-native-pili/issues"
+    "url": "https://github.com/An-uking/react-native-pili-player/issues"
   },
-  "homepage": "https://github.com/buhe/react-native-pili#readme",
+  "homepage": "https://github.com/An-uking/react-native-pili-player#readme",
   "devDependencies": {
-    "react": "^0.14.8",
-    "react-native": "^0.24.1"
+    "react": "^16.0.0",
+    "react-native": "^0.51.0"
   }
 }
