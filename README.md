@@ -1,4 +1,4 @@
-#Pili player React Native SDK
+#Pili PLPlayerKit React Native SDK
 
 ##Introduction
 
@@ -49,7 +49,6 @@ ref: [iOS 10](http://www.jianshu.com/p/c212cde86877)
             source={{
             uri: "rtmp://live.hkstv.hk.lxdns.com/live/hks",
             timeout: 10 * 1000,
-            live: false,
             hardCodec: false
           }}
           paused={this.state.paused}
