@@ -113,6 +113,9 @@ static NSString *status[] = {
     [_plplayer setMute:muted];
     
 }
+- (void) setVolume:(float) volume{
+    [_plplayer setVolume:volume];
+}
 - (void)startPlayer {
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     //NSLog(@"布尔值3:%i",_autoPlay);
