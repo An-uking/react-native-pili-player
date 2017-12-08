@@ -2,8 +2,9 @@
 
 ##Introduction
 
-这是七牛官方PLPlayerKit pili-react-native版本，集成到 iOS 和 Android 。
-
+这是由七牛官方PLPlayer pili-react-native版本修改而来，增加一些功能函数，，集成到 iOS 和 Android 。
+##注：
+本人不会原生开发，所以参照其他组件修改和添加一些功能，如果有不对的地方请指正。
 
 ##Installation
 
@@ -79,6 +80,8 @@ protected List<ReactPackage> getPackages() {
 ##Usage
 ###1. 直播
 ```javascript
+import {Player,Live} from 'react-native-pili-player';
+
           <Live
             ref={(ref) => {
               this.player = ref
@@ -101,6 +104,7 @@ protected List<ReactPackage> getPackages() {
 ```
 ###2. 点播
 ```javascript
+import {Player,Live} from 'react-native-pili-player';
 
        <Player
           ref={(ref) => {
