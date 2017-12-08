@@ -5,9 +5,9 @@
 //  Created by uking on 2017/12/8.
 //  Copyright © 2017年 uking. All rights reserved.
 //
+#import <UIKit/UIKit.h>
+#import "RCTViewManager.h"
 
-#import <Foundation/Foundation.h>
-
-@interface RCTLiveManager : NSObject
+@interface RCTLiveManager : RCTViewManager
 
 @end

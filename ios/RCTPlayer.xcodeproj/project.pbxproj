@@ -11,6 +11,11 @@
 		9373E4651FD51D7F00734372 /* RCTPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9373E4641FD51D7F00734372 /* RCTPlayer.m */; };
 		9373E4681FD51DE800734372 /* RCTPlayerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9373E4661FD51DE800734372 /* RCTPlayerManager.h */; };
 		9373E4691FD51DE800734372 /* RCTPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9373E4671FD51DE800734372 /* RCTPlayerManager.m */; };
+		939E8EE61FDA3E4900F782AD /* RCTLive.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E8EE41FDA3E4900F782AD /* RCTLive.h */; };
+		939E8EE71FDA3E4900F782AD /* RCTLive.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E8EE51FDA3E4900F782AD /* RCTLive.m */; };
+		939E8EEA1FDA3E7200F782AD /* RCTLiveManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E8EE81FDA3E7200F782AD /* RCTLiveManager.h */; };
+		939E8EEB1FDA3E7200F782AD /* RCTLiveManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E8EE91FDA3E7200F782AD /* RCTLiveManager.m */; };
+		939E8EED1FDA3E9600F782AD /* RCTTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E8EEC1FDA3E9600F782AD /* RCTTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +25,11 @@
 		9373E4641FD51D7F00734372 /* RCTPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTPlayer.m; sourceTree = "<group>"; };
 		9373E4661FD51DE800734372 /* RCTPlayerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTPlayerManager.h; sourceTree = "<group>"; };
 		9373E4671FD51DE800734372 /* RCTPlayerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTPlayerManager.m; sourceTree = "<group>"; };
+		939E8EE41FDA3E4900F782AD /* RCTLive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTLive.h; sourceTree = "<group>"; };
+		939E8EE51FDA3E4900F782AD /* RCTLive.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTLive.m; sourceTree = "<group>"; };
+		939E8EE81FDA3E7200F782AD /* RCTLiveManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTLiveManager.h; sourceTree = "<group>"; };
+		939E8EE91FDA3E7200F782AD /* RCTLiveManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTLiveManager.m; sourceTree = "<group>"; };
+		939E8EEC1FDA3E9600F782AD /* RCTTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCTTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +67,11 @@
 				9373E44E1FD51CEF00734372 /* Info.plist */,
 				9373E4661FD51DE800734372 /* RCTPlayerManager.h */,
 				9373E4671FD51DE800734372 /* RCTPlayerManager.m */,
+				939E8EE41FDA3E4900F782AD /* RCTLive.h */,
+				939E8EE51FDA3E4900F782AD /* RCTLive.m */,
+				939E8EE81FDA3E7200F782AD /* RCTLiveManager.h */,
+				939E8EE91FDA3E7200F782AD /* RCTLiveManager.m */,
+				939E8EEC1FDA3E9600F782AD /* RCTTest.swift */,
 			);
 			path = RCTPlayer;
 			sourceTree = "<group>";
@@ -68,7 +83,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939E8EE61FDA3E4900F782AD /* RCTLive.h in Headers */,
 				9373E45B1FD51CEF00734372 /* RCTPlayer.h in Headers */,
+				939E8EEA1FDA3E7200F782AD /* RCTLiveManager.h in Headers */,
 				9373E4681FD51DE800734372 /* RCTPlayerManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,6 +122,7 @@
 				TargetAttributes = {
 					9373E4491FD51CEF00734372 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -141,8 +159,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939E8EE71FDA3E4900F782AD /* RCTLive.m in Sources */,
 				9373E4691FD51DE800734372 /* RCTPlayerManager.m in Sources */,
 				9373E4651FD51D7F00734372 /* RCTPlayer.m in Sources */,
+				939E8EEB1FDA3E7200F782AD /* RCTLiveManager.m in Sources */,
+				939E8EED1FDA3E9600F782AD /* RCTTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +283,7 @@
 		9373E45F1FD51CEF00734372 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -274,6 +296,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.uking.RCTPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -281,6 +305,7 @@
 		9373E4601FD51CEF00734372 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -293,6 +318,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.uking.RCTPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
